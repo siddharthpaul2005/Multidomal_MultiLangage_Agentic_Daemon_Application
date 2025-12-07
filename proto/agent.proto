@@ -1,0 +1,51 @@
+﻿syntax = "proto3";
+
+package hyperagent.agent;
+
+import "common.proto";
+
+service Agent {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+
+    rpc StartTask(StartTaskRequest) returns (StartTaskResponse);
+    rpc StreamLogs(StartTaskRequest) returns (stream hyperagent.common.LogLine);
+    rpc StopTask(StopTaskRequest) returns (StopTaskResponse);
+}
+
+message RegisterRequest {
+    string agent_name = 1;
+    repeated string capabilities = 2;
+}
+
+message RegisterResponse {
+    bool accepted = 1;
+    string agent_id = 2;
+}
+
+message HeartbeatRequest {
+    string agent_id = 1;
+}
+
+message HeartbeatResponse {
+    bool ok = 1;
+}
+
+message StartTaskRequest {
+    string agent_id = 1;
+    string task_type = 2; 
+    string payload = 3;   
+}
+
+message StartTaskResponse {
+    bool accepted = 1;
+    string task_id = 2;
+}
+
+message StopTaskRequest {
+    string task_id = 1;
+}
+
+message StopTaskResponse {
+    bool ok = 1;
+}

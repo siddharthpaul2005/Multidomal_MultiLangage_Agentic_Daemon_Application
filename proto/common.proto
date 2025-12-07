@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+
+package hyperagent.common;
+
+message Empty {}
+
+message LogLine {
+    string message = 1;
+    string level = 2;  
+    int64 timestamp = 3;
+}

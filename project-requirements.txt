@@ -1,0 +1,7 @@
+# Languages
+Go >= 1.21
+Python >= 3.10
+NodeJS >= 20
+
+# Build tools
+protoc >= 3.21

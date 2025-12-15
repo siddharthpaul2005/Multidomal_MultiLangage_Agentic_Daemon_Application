@@ -1,0 +1,8 @@
+__pycache__/
+node_modules/
+dist/
+bin/
+go-build/
+.env
+
+# i avoid garbage collectors from entering the file

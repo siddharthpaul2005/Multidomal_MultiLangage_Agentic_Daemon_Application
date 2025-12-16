@@ -4,48 +4,100 @@ package hyperagent.agent;
 
 import "common.proto";
 
+// Agent service: RPCs implemented by an agent. A manager or controller
+// calls these methods to register agents, check liveness, start/stop
+// tasks, and stream logs from running tasks.
+
 service Agent {
+    // Register the agent with the manager.
+    // - Request: RegisterRequest (agent_name, capabilities)
+    // - Response: RegisterResponse (accepted, agent_id)
+
     rpc Register(RegisterRequest) returns (RegisterResponse);
+
+    // Heartbeat: periodic keep-alive from the agent to the manager.
+    // - Request: HeartbeatRequest (agent_id)
+    // - Response: HeartbeatResponse (ok)
+
     rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
 
+    // Ask the agent to start a task.
+    // - Request: StartTaskRequest (agent_id, task_type, payload)
+    // - Response: StartTaskResponse (accepted, task_id)
+
     rpc StartTask(StartTaskRequest) returns (StartTaskResponse);
+
+    // Stream logs for a requested task (server streaming).
+    // - Request: StartTaskRequest (task identification via task_id in payload or
+    //            using agent_id/task_type/payload convention)
+    // - Response: stream hyperagent.common.LogLine
     rpc StreamLogs(StartTaskRequest) returns (stream hyperagent.common.LogLine);
+
+    // Request to stop a running task by task_id.
+    // - Request: StopTaskRequest (task_id)
+    // - Response: StopTaskResponse (ok)
     rpc StopTask(StopTaskRequest) returns (StopTaskResponse);
 }
 
 message RegisterRequest {
+    // Human-friendly name for the agent (e.g., "agent-nyc-1").
     string agent_name = 1;
+
+    // Capabilities supported by the agent (e.g., "docker", "python3").
+    // The manager can use these to schedule tasks to suitable agents.
     repeated string capabilities = 2;
 }
 
 message RegisterResponse {
+    // Whether the manager accepted the registration request.
     bool accepted = 1;
+
+    // Unique identifier assigned by the manager (e.g., UUID). Use this
+    // `agent_id` in subsequent requests such as Heartbeat or StartTask.
     string agent_id = 2;
 }
 
 message HeartbeatRequest {
+    // The agent's assigned ID provided by the manager at registration.
     string agent_id = 1;
 }
 
 message HeartbeatResponse {
+    // Whether the manager acknowledges the heartbeat / considers the agent
+    // healthy. Agents may act on a false value (e.g., attempt to re-register).
     bool ok = 1;
 }
 
 message StartTaskRequest {
+    // Target agent to run the task (assigned at registration).
     string agent_id = 1;
-    string task_type = 2; 
-    string payload = 3;   
+
+    // Short label for the task type (e.g., "build", "test"). Determines how
+    // the agent interprets `payload`.
+    string task_type = 2;
+
+    // Free-form parameters for the task. Commonly JSON or an encoded blob.
+    // Interpretation depends on `task_type`.
+    string payload = 3;
 }
 
 message StartTaskResponse {
+    // Whether the agent accepted/queued the task.
     bool accepted = 1;
+
+    // Identifier for the started task. Used to stream logs or request stop.
     string task_id = 2;
 }
 
 message StopTaskRequest {
+    // Identifier of the task to stop (from StartTaskResponse.task_id).
     string task_id = 1;
 }
 
 message StopTaskResponse {
+    // Whether stopping the task succeeded.
     bool ok = 1;
 }
+
+
+// quick info about rpcs - its called remote protocol calls how they work ? well You define your service and data structures (messages) in a .proto file (Interface Definition Language - IDL).You define your service and data structures (messages) in a .proto file (Interface Definition Language - IDL). After that gRPC tools generate client and server code (stubs/interfaces) in your chosen language from the .proto file. Client sends one request, server sends one response (like traditional HTTP). Client sends one request, server streams back multiple responses. Client streams multiple requests, server sends one response. Client and server send independent streams of messages to each other.Uses HTTP/2 for efficient multiplexing and binary protocol buffers for compact data, making it faster than JSON/REST. 

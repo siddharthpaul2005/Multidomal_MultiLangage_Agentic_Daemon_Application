@@ -1,250 +1,175 @@
-# AI Multi-Agent System
-PHASE 0 — FOUNDATION (one canonical repo + contracts)
+🧠 AI for Everything
 
-Core goal: stop arguing about file layout. Lock the API contract.
+A Modular, Agentic, Multi-Domain AI System
 
-Deliverables
+A systems-first, extensible AI platform designed to solve real problems across domains using autonomous agents, tool orchestration, and clean software architecture.
 
-Monorepo skeleton with folders: proto/, manager/, agents/, ui/, templates/, dev/, infra/.
+🚀 Vision
 
-Canonical protobuf definitions for manager↔agent (registration, start/stop, stream logs, health).
+Most AI projects are demos.
+This one is an engineering system.
 
-CI pipeline scaffold (lint, proto-gen, unit test job).
+AI for Everything aims to be a unified, extensible platform where intelligent agents can:
 
-CONTRIBUTING.md and developer playbook.
+Understand tasks
 
-Why first
+Choose tools
 
-Prevents divergent implementations and gives clear contracts for cross-language stubs.
+Execute workflows
 
-PHASE 1 — CORE ORCHESTRATOR (manager)
+Coordinate with other agents
 
-Core goal: always-on process that registers agents, enforces lifecycle, routes requests.
+Continuously improve
 
-Deliverables
+Think of it as an operating system for AI agents, not a chatbot.
 
-Go manager daemon with gRPC server implementing proto.
+🧩 Core Design Principles
 
-Agent registry & heartbeat mechanism.
+Agent-centric architecture
+Each capability is an independent, composable agent.
 
-Process supervisor API (start/stop child processes).
+Multi-domain by design
+One framework → many problem spaces (ML, systems, web, finance, automation).
 
-Simple permission model (per-request capability tokens).
+Language-agnostic & extensible
+Core logic is decoupled from language bindings.
 
-Local IPC discovery (unix socket or local TCP).
+Systems > Scripts
+Clear boundaries, clean abstractions, versioned workflows.
 
-Acceptance criteria
+Production-minded
+Logging, configuration, reproducibility, and testability are first-class.
 
-Manager accepts registration from a sample agent and maintains heartbeat.
+🏗️ High-Level Architecture
+ai-for-everything/
+│
+├── core/               # Core orchestration engine
+│   ├── agent.py        # Base Agent abstraction
+│   ├── task.py         # Task definitions & lifecycle
+│   ├── memory.py       # Short / long-term memory interfaces
+│   └── tools.py        # Tool registry & execution layer
+│
+├── agents/             # Domain-specific agents
+│   ├── coding_agent/
+│   ├── research_agent/
+│   ├── system_agent/
+│   └── planner_agent/
+│
+├── workflows/          # Multi-agent workflows
+│
+├── interfaces/         # CLI / API / future UI
+│
+├── configs/            # Environment & runtime configs
+│
+├── scripts/            # Dev & automation scripts
+│
+├── tests/              # Unit & integration tests
+│
+└── README.md
 
-Manager can spawn a child process (sample agent) and capture stdout/stderr.
+🤖 Agents (Current & Planned)
+Current
 
-Manager exposes a health endpoint that returns ok.
+Planner Agent – task decomposition & routing
 
-Notes
+Coding Agent – code generation, refactoring, review
 
-Keep manager minimal: no business logic, only orchestration and safety rules.
+Research Agent – information synthesis & reasoning
 
-PHASE 2 — FIRST AGENT: AUTO-PROJECT-BOOTSTRAPPER (Python)
+System Agent – environment & execution control
 
-Core goal: working end-to-end demo where user can ask UI to bootstrap a project and get a ready workspace.
+Planned
 
-Deliverables
+ML Agent – model training, evaluation, experimentation
 
-Python bootstrapper agent implementing proto (StartBootstrap, StreamLogs, Cancel).
+Quant Agent – financial modeling & risk analysis
 
-Template engine (Jinja2) + 2 templates (Django, FastAPI).
+Infra Agent – deployment & system optimization
 
-CLI wrapper run_agent.py that manager can invoke.
+Meta Agent – agent evaluation & self-improvement
 
-Logging to file + stdout in a way manager can stream.
+🧪 Project Status
 
-Template validation + simple post-check (run devserver or tests).
+Phase 0 – Foundation ✅
 
-Acceptance criteria
+Project structure finalized
 
-Manager can call StartBootstrap and receive accepted = true.
+Git initialized & versioned
 
-Manager streams logs to UI while bootstrap runs.
+Core abstractions defined
 
-Resulting project starts locally (e.g., python -m uvicorn app:app) or Docker builds succeed.
+Phase 1 – Core Agent Engine 🚧
 
-“Open in VSCode” action works from UI (manager runs the command).
+Agent base class
 
-Agent must run in a workspace dir created by manager and must never reach outside without capability grant.
+Tool registry
 
-PHASE 3 — UI INTEGRATION (desktop shell + IDE integration)
+Task lifecycle
 
-Core goal: unified user experience that talks only to manager and shows progress.
+Phase 2 – Multi-Agent Workflows ⏳
 
-Deliverables
+Inter-agent communication
 
-Tauri + React desktop app (UI shell) that calls manager via REST/gRPC-web.
+Shared memory
 
-Project bootstrap form (stack, name, options) and real-time log viewer.
+Workflow execution
 
-“Open in VSCode” integration via manager (manager executes code <path>).
+Phase 3 – Interfaces & Scaling ⏳
 
-Basic user onboarding & permission modal.
+CLI / API
 
-Acceptance criteria
+Observability
 
-UI can initiate bootstrap and display streaming logs in real time.
+Performance optimization
 
-UI shows agent status and can cancel running tasks.
+🛠️ Setup & Development
+# Clone repository
+git clone <https://github.com/siddharthpaul2005/Multidomal_MultiLangage_Agentic_Daemon_Application>
+cd ai-for-everything or what ever folder you keep this in 
 
-UI receives and displays audit logs for actions performed.
+# (Optional) Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-Notes
+# Install dependencies
+pip install -r requirements.txt
 
-UI never executes privileged tasks directly; it only speaks to manager.
+# Run basic test
+python -m core.agent
 
-PHASE 4 — MULTI-AGENT ECOSYSTEM (scale from 1 to ~5 agents)
+🧠 Why This Project Exists
 
-Core goal: add multiple, diverse agents and show orchestrator routing.
+This project is built to:
 
-Deliverables (pick initial agents)
+Learn real systems engineering
 
-Code Review Agent (Python): scans repo, produces suggestions.
+Explore agentic AI deeply
 
-Scheduler Agent (Python/Go): reads tasks and suggests priorities.
+Build something that can evolve for years
 
-Dev-Env Agent (Python + Docker): creates devcontainer + docker compose.
+Serve as a foundation for research, startups, and high-impact work
 
-PR-Triage Agent (Python): tags issues and proposes PRs.
+This is not a tutorial project.
+This is a long-term engineering asset.
 
-Security Auditor (Rust or Python wrapper to trivy): scans dependencies.
+📌 Roadmap
 
-Acceptance criteria
+ Stable core agent API
 
-Agents register with capabilities.
+ Tool execution sandbox
 
-Router LLM (light-weight) can route a sample user prompt to the correct agent(s) and return combined result.
+ Memory persistence layer
 
-Manager logs show multi-agent orchestration for a composite request.
+ Multi-language bindings
 
-Notes
+ Benchmarking & evaluation framework
 
-Start agents as separate processes. Use gRPC and proto messages for task exchange.
+🧑‍💻 Author
 
-PHASE 5 — MODEL RUNTIME & ML SERVICES (embedding + small LLM)
+Siddharth
+Engineering socus on systems, ML, and building scalable AI infrastructure.
+Akshat
+Engineering the agents, LLM infra, interactive UI.
+📜 License
 
-Core goal: local embeddings, retrieval, small LLM for routing and code-gen (if on-device).
-
-Deliverables
-
-Embeddings service (Python) with gRPC -> Embed(text[]), Search(query).
-
-Model runtime wrapper (Rust/C++ or existing ggml binary) exposing gRPC to manager/agents.
-
-Simple router LLM (local small model or cloud fallback) used by manager to dispatch.
-
-Vector store (FAISS) or disk-backed index accessible via gRPC.
-
-Acceptance criteria
-
-Local embedding of docs and retrieving the most-relevant chunks works.
-
-Manager can call model runtime with timeout/priority and receive responses.
-
-Router LLM selects appropriate agent in 90% of sample prompts.
-
-Notes
-
-Always run model runtime in isolated process with resource caps.
-
-PHASE 6 — PLUGIN SYSTEM & SANDBOX (WASM + container heavy-plugins)
-
-Core goal: allow third-party/own plugins that extend agent capabilities safely.
-
-Deliverables
-
-WASM plugin loader for light plugins (Rust->WASM or Tiny Go).
-
-Container plugin spec for heavy plugins (manifest + capability request).
-
-Plugin registry + signing model (dev mode accept unsigned).
-
-UI to browse and enable plugins.
-
-Acceptance criteria
-
-Manager can load a WASM plugin, run it with limited capabilities, and unload it without restarting.
-
-Container plugin can be launched and killed safely with resource limits.
-
-Plugin manifest includes requested capabilities and user consent flow.
-
-Notes
-
-Start with local-only plugins (no network access) until signing and security are solid.
-
-PHASE 7 — PACKAGING & INSTALLER (native experience)
-
-Core goal: deliver an installer that sets up the manager as a system service + desktop app.
-
-Deliverables
-
-Cross-platform build pipeline for manager (static Go binary).
-
-Tauri packaged desktop apps for macOS, Windows, Linux.
-
-Installer that registers daemon/service and creates local user data folder.
-
-Portable docker-based distribution mode.
-
-Acceptance criteria
-
-Installer creates a service that auto-starts manager on login.
-
-Desktop app can detect and start/stop the manager.
-
-Portable docker mode fully functional.
-
-PHASE 8 — OBSERVABILITY & RESILIENCE (logs, tracing, chaos)
-
-Core goal: ensure production-like safety — observe, test failure modes, and bounce back.
-
-Deliverables
-
-Local observability dashboard (logs, agent health, model metrics).
-
-Distributed tracing (OpenTelemetry local collector).
-
-CI integration tests: unit, contract tests, full E2E that spins manager + agents.
-
-Chaos tests: simulate model OOM, agent crash, network cuts.
-
-Acceptance criteria
-
-CI runs E2E smoke flows and fails on regression.
-
-Chaos tests reveal at least one failure mode that is fixed or has an accepted mitigation.
-
-PHASE 9 — PRIVACY & SECURITY (hard non-negotiables)
-
-Core goal: ship a product people can trust locally.
-
-Deliverables
-
-Permission model + consent dialogs.
-
-Audit logs + rollback for destructive actions.
-
-Secret handling via OS keychain.
-
-Security review checklist + remediation.
-
-Legal basics: local-only default policy, privacy notice.
-
-Acceptance criteria
-
-Any action that touches network, calendar, or files outside workspace triggers consent and is logged.
-
-Secrets are not written to plaintext.
-
-Audit logs are readable and can be used to reconstruct actions.
-
-
-
-Building Phase 0 has started this is all that you guys need to know when workign with this codebase 
+MIT License — use it, break it, improve it.

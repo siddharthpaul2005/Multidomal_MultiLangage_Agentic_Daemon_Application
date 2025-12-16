@@ -6,8 +6,21 @@ import "common.proto";
 
 service Manager {
     rpc RegisterAgent(RegisterAgentRequest) returns (RegisterAgentResponse);
+
+    
+    // external clients or agents can register an agent with the manager for trigger manager to record agent metadata.  RegisterAgentRequest-agent_name and capabilities RegisterAgentResponse- the unique ID assignedto the agent by the manager.
+    
+    
     rpc SendTask(TaskRequest) returns (TaskResponse);
+
+    // External clients request the manager to dispatch a task to an agent. 
+   
+   
     rpc GetLogs(TaskRequest) returns (stream hyperagent.common.LogLine);
+
+
+    // This stream log for a task back to caller ( client or UI) using LogLine from Common.proto. The input is TaskRequest sp caller indicates which agent and task to retrieve logs for. This provides real-time log streaming without pooling.
+
 }
 
 message RegisterAgentRequest {
@@ -19,7 +32,7 @@ message RegisterAgentResponse {
     bool accepted = 1;
     string agent_id = 2;
 }
-
+// Task request and responce are just sinple and flexible. payload is freeform 
 message TaskRequest {
     string agent_id = 1;
     string task_type = 2;
@@ -30,3 +43,18 @@ message TaskResponse {
     bool ok = 1;
     string task_id = 2;
 }
+
+
+// this defines a manager gRPC service used to register agents  ,send tasks to agents, and stream task logs. basically  defines the public API for the manager role of the system: registering agents, dispatching tasks, and streaming logs. It mirrors the agent-side API but from the manager's perspective, designed for clients (or other services) to interact with the manager.
+
+// Thinngs to keep in mind 
+//agent_name — human-friendly identifier for the agent.
+//capabilities — list of features the agent supports (repeated string).
+//accepted — whether the manager accepted the registration.
+//agent_id — the unique ID assigned to the agent by the manager.
+//task_type — type of task (e.g., "build", "test").
+//payload — freeform string carrying parameters (often JSON or base64).
+//task_id — identifier for the task used for tracking and log retrieval.
+//TaskRequest- takes the following parameters aget_id, task_type, payload. 
+//TaskResponse- ok (whether the manager accepted/queued/dispatched the task) , task_id 
+//RegisterAgentResponse- the unique ID assignedto the agent by the manager.

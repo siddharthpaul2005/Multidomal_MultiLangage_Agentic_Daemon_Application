@@ -27,7 +27,14 @@ if _version_not_supported:
 
 
 class AgentStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """Agent service: RPCs implemented by an agent. A manager or controller
+    calls these methods to register agents, check liveness, start/stop
+    tasks, and stream logs from running tasks.
+
+    Register the agent with the manager.
+    - Request: RegisterRequest (agent_name, capabilities)
+    - Response: RegisterResponse (accepted, agent_id)
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -63,7 +70,14 @@ class AgentStub(object):
 
 
 class AgentServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """Agent service: RPCs implemented by an agent. A manager or controller
+    calls these methods to register agents, check liveness, start/stop
+    tasks, and stream logs from running tasks.
+
+    Register the agent with the manager.
+    - Request: RegisterRequest (agent_name, capabilities)
+    - Response: RegisterResponse (accepted, agent_id)
+    """
 
     def Register(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -72,25 +86,40 @@ class AgentServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def Heartbeat(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Heartbeat: periodic keep-alive from the agent to the manager.
+        - Request: HeartbeatRequest (agent_id)
+        - Response: HeartbeatResponse (ok)
+
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def StartTask(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Ask the agent to start a task.
+        - Request: StartTaskRequest (agent_id, task_type, payload)
+        - Response: StartTaskResponse (accepted, task_id)
+
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def StreamLogs(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Stream logs for a requested task (server streaming).
+        - Request: StartTaskRequest (task identification via task_id in payload or
+        using agent_id/task_type/payload convention)
+        - Response: stream hyperagent.common.LogLine
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def StopTask(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Request to stop a running task by task_id.
+        - Request: StopTaskRequest (task_id)
+        - Response: StopTaskResponse (ok)
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -132,7 +161,14 @@ def add_AgentServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Agent(object):
-    """Missing associated documentation comment in .proto file."""
+    """Agent service: RPCs implemented by an agent. A manager or controller
+    calls these methods to register agents, check liveness, start/stop
+    tasks, and stream logs from running tasks.
+
+    Register the agent with the manager.
+    - Request: RegisterRequest (agent_name, capabilities)
+    - Response: RegisterResponse (accepted, agent_id)
+    """
 
     @staticmethod
     def Register(request,

@@ -1,126 +1,149 @@
-🧠 AI for Everything
+# AI for Everything — Multi-Agent Developer Assistant
 
-A Modular, Agentic, Multi-Domain AI System
+> A locally running, always-on, multi-agent AI system designed to make developers 10× more productive.
 
-A systems-first, extensible AI platform designed to solve real problems across domains using autonomous agents, tool orchestration, and clean software architecture.
+This is not a chatbot.
+This is not a terminal toy.
 
-🚀 Vision
+This project is a **persistent, agentic AI environment** that:
+- Understands your machine
+- Operates across tools, files, and workflows
+- Coordinates multiple specialized agents
+- Works **with you**, not instead of you
 
-Most AI projects are demos.
-This one is an engineering system.
+---
 
-AI for Everything aims to be a unified, extensible platform where intelligent agents can:
+## 🚀 Vision
 
-Understand tasks
+Modern developers waste enormous cognitive energy on:
+- Environment setup
+- Boilerplate configuration
+- Context switching
+- Task prioritization
+- Manual coordination
 
-Choose tools
+**AI for Everything** aims to eliminate that friction.
 
-Execute workflows
+You tell the system:
+> “Start a new Django + TypeScript project for a client.”
 
-Coordinate with other agents
+You grab coffee.
 
-Continuously improve
+You return to:
+- A fully initialized repo
+- Correct environment setup
+- Linting, formatting, configs done
+- You are *already inside* a ready-to-code workspace
 
-Think of it as an operating system for AI agents, not a chatbot.
+---
 
-🧩 Core Design Principles
+## 🧠 Core Philosophy
 
-Agent-centric architecture
-Each capability is an independent, composable agent.
+- **Always-on** (not prompt-based)
+- **Local-first** (privacy + control)
+- **Multi-agent, not monolithic**
+- **Pluggable capabilities**
+- **Human-in-the-loop by default**
 
-Multi-domain by design
-One framework → many problem spaces (ML, systems, web, finance, automation).
+The system does not replace the developer.
+It **amplifies** them.
 
-Language-agnostic & extensible
-Core logic is decoupled from language bindings.
+---
 
-Systems > Scripts
-Clear boundaries, clean abstractions, versioned workflows.
+## 🧩 Architecture Overview
 
-Production-minded
-Logging, configuration, reproducibility, and testability are first-class.
+At a high level, the system consists of:
 
-🏗️ High-Level Architecture
-ai-for-everything/
-│
-├── core/               # Core orchestration engine
-│   ├── agent.py        # Base Agent abstraction
-│   ├── task.py         # Task definitions & lifecycle
-│   ├── memory.py       # Short / long-term memory interfaces
-│   └── tools.py        # Tool registry & execution layer
-│
-├── agents/             # Domain-specific agents
-│   ├── coding_agent/
-│   ├── research_agent/
-│   ├── system_agent/
-│   └── planner_agent/
-│
-├── workflows/          # Multi-agent workflows
-│
-├── interfaces/         # CLI / API / future UI
-│
-├── configs/            # Environment & runtime configs
-│
-├── scripts/            # Dev & automation scripts
-│
-├── tests/              # Unit & integration tests
-│
-└── README.md
+- **Manager (Go)**  
+  The always-on orchestration brain.
+  - Tracks agents
+  - Dispatches tasks
+  - Monitors health
+  - Streams logs
 
-🤖 Agents (Current & Planned)
-Current
+- **Agents (Python / Rust / Go)**  
+  Independent workers with specialized capabilities.
+  - Project bootstrapping
+  - Code analysis
+  - Environment management
+  - Productivity analysis
+  - Scheduling & prioritization
 
-Planner Agent – task decomposition & routing
+- **Protocol Layer (gRPC + Protobuf)**  
+  Strongly-typed communication between all components.
 
-Coding Agent – code generation, refactoring, review
+- **UI Layer (Desktop-first)**  
+  Single interface for:
+  - Talking to the system
+  - Observing agents
+  - Approving actions
+  - Reviewing suggestions
 
-Research Agent – information synthesis & reasoning
+---
 
-System Agent – environment & execution control
+## 📁 Repository Structure
 
-Planned
+proto/ # gRPC contracts (source of truth)
+manager/ # Go-based orchestrator
+agents/ # Independent agent implementations
+└─ example_agent/
+ui/ # Desktop / frontend layer
+scripts/ # Dev & automation scripts
+infra/ # Docker, deployment, infra configs
 
-ML Agent – model training, evaluation, experimentation
 
-Quant Agent – financial modeling & risk analysis
+---
 
-Infra Agent – deployment & system optimization
+## 🧪 Current Status
 
-Meta Agent – agent evaluation & self-improvement
+### ✅ Phase 0 — Foundation (In Progress)
+- Repo structure finalized
+- Multi-language toolchain established
+- Protobuf contracts defined
+- Dev scripts in place
+- Example agent scaffolded
 
-🧪 Project Status
+### 🔜 Phase 1 — Orchestration
+- Agent registry
+- Task dispatch
+- Heartbeats & health checks
 
-Phase 0 – Foundation ✅
+### 🔜 Phase 2 — Developer Power Features
+- Auto Project Bootstrapper
+- Context-aware code assistant
+- Environment management agent
 
-Project structure finalized
+### 🔜 Phase 3 — Desktop Application
+- Always-on system tray app
+- Voice + text interaction
+- Permissioned actions
 
-Git initialized & versioned
+---
 
-Core abstractions defined
+## 🛠 Tech Stack (Intentional Choices)
 
-Phase 1 – Core Agent Engine 🚧
+| Layer | Technology | Why |
+|-----|-----------|----|
+| Orchestrator | Go | Concurrency, reliability, binaries |
+| Agents | Python / Rust | ML + performance |
+| IPC | gRPC + Protobuf | Language-agnostic, scalable |
+| UI | Electron / Tauri (TBD) | Desktop-first |
+| OS Integration | Native APIs | Deep system awareness |
 
-Agent base class
+---
 
-Tool registry
+## 🧪 Running Locally (Early Dev)
 
-Task lifecycle
+> ⚠️ This project is under active development.  
+> APIs and structure may change.
 
-Phase 2 – Multi-Agent Workflows ⏳
+```bash
+# Generate protobufs
+powershell -File scripts/generate_proto.ps1
 
-Inter-agent communication
+# Start manager + example agent
+powershell -File scripts/dev_up.ps1
 
-Shared memory
-
-Workflow execution
-
-Phase 3 – Interfaces & Scaling ⏳
-
-CLI / API
-
-Observability
-
-Performance optimization
 
 🛠️ Setup & Development
 # Clone repository

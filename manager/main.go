@@ -1,48 +1,22 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
-	"net/http"
+	"net"
 
-	agentpb "hyperagent/proto"
+	"google.golang.org/grpc"
 )
 
-func runAgentHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	defer r.Body.Close()
-
-	var req agentpb.AgentRequest
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "invalid JSON body", http.StatusBadRequest)
-		return
-	}
-
-	log.Printf("Received AgentRequest: %+v\n", req)
-
-	resp := &agentpb.AgentResponse{
-		AgentName:  req.AgentName,
-		Status:     "ok",
-		ResultJson: `{"message":"dummy response"}`,
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(resp); err != nil {
-		log.Printf("failed to write response: %v", err)
-	}
-}
-
 func main() {
-	http.HandleFunc("/run-agent", runAgentHandler)
+	lis, err := net.Listen("tcp", ":50051")
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
 
-	addr := ":8080"
-	log.Printf("Starting manager HTTP server on %s", addr)
+	server := grpc.NewServer()
 
-	if err := http.ListenAndServe(addr, nil); err != nil {
-		log.Fatalf("server failed: %v", err)
+	log.Println("[Manager] Running on :50051")
+	if err := server.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
 	}
 }

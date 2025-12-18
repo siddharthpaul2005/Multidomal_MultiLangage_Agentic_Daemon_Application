@@ -62,13 +62,17 @@ class ManagerServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def SendTask(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """external clients or agents can register an agent with the manager for trigger manager to record agent metadata.  RegisterAgentRequest-agent_name and capabilities RegisterAgentResponse- the unique ID assignedto the agent by the manager.
+
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def GetLogs(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """External clients request the manager to dispatch a task to an agent. 
+
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')

@@ -199,4 +199,29 @@ registry.go ← state
 scheduler.go ← decision
 heartbeat.go ← liveness
 
+bug fixing report I had undergone a bug which i had to fix 
+Nothing is “wrong” with my logic. The wiring is just slightly off.
 
+package hyperagent/proto/manager is not in std
+(no required module provides package "hyperagent/proto/manager")
+
+This tells me that go cant find the imort path 
+"hyperagent/manager/server" I expected go to work with this be able to find the and proto files but i forgot that it was not there and I cold not reroute it so i had to make new ones in it 
+This is NOT a gRPC bug.
+
+This is 100% a Go module + proto generation path mismatch.
+
+By the way I dont use WARP. I am having to hard code all this shit. fuck warp its just a stupid money hungry piece of software son of a bitch.
+FUCK WARP 
+FUCK WARP
+FUCK WARP 
+FUCK WARP
+FUCK WARP 
+FUCK WARP
+FUCK WARP 
+FUCK WARP
+FUCK WARP 
+FUCK WARP
+FUCK WARP 
+
+FUCK YOU WARP

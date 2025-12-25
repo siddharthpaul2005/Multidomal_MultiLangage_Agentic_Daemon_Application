@@ -25,13 +25,14 @@ _sym_db = _symbol_database.Default()
 import common_pb2 as common__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rmanager.proto\x12\x12hyperagent.manager\x1a\x0c\x63ommon.proto\"@\n\x14RegisterAgentRequest\x12\x12\n\nagent_name\x18\x01 \x01(\t\x12\x14\n\x0c\x63\x61pabilities\x18\x02 \x03(\t\";\n\x15RegisterAgentResponse\x12\x10\n\x08\x61\x63\x63\x65pted\x18\x01 \x01(\x08\x12\x10\n\x08\x61gent_id\x18\x02 \x01(\t\"C\n\x0bTaskRequest\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\x12\x11\n\ttask_type\x18\x02 \x01(\t\x12\x0f\n\x07payload\x18\x03 \x01(\t\"+\n\x0cTaskResponse\x12\n\n\x02ok\x18\x01 \x01(\x08\x12\x0f\n\x07task_id\x18\x02 \x01(\t2\x88\x02\n\x07Manager\x12\x64\n\rRegisterAgent\x12(.hyperagent.manager.RegisterAgentRequest\x1a).hyperagent.manager.RegisterAgentResponse\x12M\n\x08SendTask\x12\x1f.hyperagent.manager.TaskRequest\x1a .hyperagent.manager.TaskResponse\x12H\n\x07GetLogs\x12\x1f.hyperagent.manager.TaskRequest\x1a\x1a.hyperagent.common.LogLine0\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rmanager.proto\x12\x12hyperagent.manager\x1a\x0c\x63ommon.proto\"@\n\x14RegisterAgentRequest\x12\x12\n\nagent_name\x18\x01 \x01(\t\x12\x14\n\x0c\x63\x61pabilities\x18\x02 \x03(\t\";\n\x15RegisterAgentResponse\x12\x10\n\x08\x61\x63\x63\x65pted\x18\x01 \x01(\x08\x12\x10\n\x08\x61gent_id\x18\x02 \x01(\t\"C\n\x0bTaskRequest\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\x12\x11\n\ttask_type\x18\x02 \x01(\t\x12\x0f\n\x07payload\x18\x03 \x01(\t\"+\n\x0cTaskResponse\x12\n\n\x02ok\x18\x01 \x01(\x08\x12\x0f\n\x07task_id\x18\x02 \x01(\t2\x88\x02\n\x07Manager\x12\x64\n\rRegisterAgent\x12(.hyperagent.manager.RegisterAgentRequest\x1a).hyperagent.manager.RegisterAgentResponse\x12M\n\x08SendTask\x12\x1f.hyperagent.manager.TaskRequest\x1a .hyperagent.manager.TaskResponse\x12H\n\x07GetLogs\x12\x1f.hyperagent.manager.TaskRequest\x1a\x1a.hyperagent.common.LogLine0\x01\x42*Z(hyperagent/manager/proto/manager;managerb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'manager_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-  DESCRIPTOR._loaded_options = None
+  _globals['DESCRIPTOR']._loaded_options = None
+  _globals['DESCRIPTOR']._serialized_options = b'Z(hyperagent/manager/proto/manager;manager'
   _globals['_REGISTERAGENTREQUEST']._serialized_start=51
   _globals['_REGISTERAGENTREQUEST']._serialized_end=115
   _globals['_REGISTERAGENTRESPONSE']._serialized_start=117

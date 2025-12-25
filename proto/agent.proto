@@ -1,6 +1,8 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package hyperagent.agent;
+
+option go_package = "hyperagent/manager/proto/agent;agent";
 
 import "common.proto";
 

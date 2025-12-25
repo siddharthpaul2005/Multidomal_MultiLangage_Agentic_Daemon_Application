@@ -1,6 +1,8 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package hyperagent.common;
+
+option go_package = "hyperagent/manager/proto/common;common";
 
 message Empty {}
 

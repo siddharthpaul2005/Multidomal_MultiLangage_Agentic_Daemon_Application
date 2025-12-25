@@ -1,6 +1,8 @@
 package main
 
 import (
+	pb "hyperagent/manager/proto/manager"
+	"hyperagent/manager/server"
 	"log"
 	"net"
 
@@ -8,15 +10,22 @@ import (
 )
 
 func main() {
+
+	//Core brain components
+	registry := server.NewAgentRegistry()
+	_ = registry
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	server := grpc.NewServer()
+	grpcServer := grpc.NewServer()
+
+	managerServer := server.NewManagerServer(registry)
+	pb.RegisterManagerServer(grpcServer, managerServer)
 
 	log.Println("[Manager] Running on :50051")
-	if err := server.Serve(lis); err != nil {
+	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }

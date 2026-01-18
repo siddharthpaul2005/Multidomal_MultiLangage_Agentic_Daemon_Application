@@ -40,6 +40,11 @@ class ManagerStub(object):
                 request_serializer=manager__pb2.RegisterAgentRequest.SerializeToString,
                 response_deserializer=manager__pb2.RegisterAgentResponse.FromString,
                 _registered_method=True)
+        self.Heartbeat = channel.unary_unary(
+                '/hyperagent.manager.Manager/Heartbeat',
+                request_serializer=manager__pb2.HeartbeatRequest.SerializeToString,
+                response_deserializer=manager__pb2.HeartbeatResponse.FromString,
+                _registered_method=True)
         self.SendTask = channel.unary_unary(
                 '/hyperagent.manager.Manager/SendTask',
                 request_serializer=manager__pb2.TaskRequest.SerializeToString,
@@ -57,6 +62,13 @@ class ManagerServicer(object):
 
     def RegisterAgent(self, request, context):
         """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Heartbeat(self, request, context):
+        """“Agents can periodically tell the manager they’re alive.”
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -84,6 +96,11 @@ def add_ManagerServicer_to_server(servicer, server):
                     servicer.RegisterAgent,
                     request_deserializer=manager__pb2.RegisterAgentRequest.FromString,
                     response_serializer=manager__pb2.RegisterAgentResponse.SerializeToString,
+            ),
+            'Heartbeat': grpc.unary_unary_rpc_method_handler(
+                    servicer.Heartbeat,
+                    request_deserializer=manager__pb2.HeartbeatRequest.FromString,
+                    response_serializer=manager__pb2.HeartbeatResponse.SerializeToString,
             ),
             'SendTask': grpc.unary_unary_rpc_method_handler(
                     servicer.SendTask,
@@ -123,6 +140,33 @@ class Manager(object):
             '/hyperagent.manager.Manager/RegisterAgent',
             manager__pb2.RegisterAgentRequest.SerializeToString,
             manager__pb2.RegisterAgentResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Heartbeat(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/hyperagent.manager.Manager/Heartbeat',
+            manager__pb2.HeartbeatRequest.SerializeToString,
+            manager__pb2.HeartbeatResponse.FromString,
             options,
             channel_credentials,
             insecure,

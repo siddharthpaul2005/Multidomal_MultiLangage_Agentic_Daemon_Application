@@ -1,9 +1,6 @@
 // gRPC gateway
 package server
 
-// TODO: implement manager server handlers
-//now I must implemant the manager gRPC Server
-
 import (
 	"context"
 	"log"
@@ -17,7 +14,9 @@ type ManagerServer struct {
 }
 
 func NewManagerServer(registry *AgentRegistry) *ManagerServer {
-	return &ManagerServer{registry: registry}
+	return &ManagerServer{
+		registry: registry,
+	}
 }
 
 func (s *ManagerServer) RegisterAgent(
@@ -26,15 +25,18 @@ func (s *ManagerServer) RegisterAgent(
 ) (*pb.RegisterAgentResponse, error) {
 
 	agent := AgentInfo{
-		ID:           req.AgentName, // temporary, UUID later
+		ID:           req.AgentName, // TODO: replace with UUID
 		Name:         req.AgentName,
 		Capabilities: req.Capabilities,
 	}
 
 	s.registry.Register(agent)
 
-	log.Printf("[Manager] Registered agent: %s (%v)",
-		agent.Name, agent.Capabilities)
+	log.Printf(
+		"[Manager] Registered agent: %s (%v)",
+		agent.Name,
+		agent.Capabilities,
+	)
 
 	return &pb.RegisterAgentResponse{
 		Accepted: true,

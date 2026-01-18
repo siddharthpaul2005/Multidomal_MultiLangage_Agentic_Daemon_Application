@@ -8,7 +8,8 @@ func (r *AgentRegistry) FindByCapability(cap string) *AgentInfo {
 	for _, agent := range r.agents {
 		for _, c := range agent.Capabilities {
 			if c == cap {
-				return &agent
+				a := agent // copy to avoid pointer alias bug
+				return &a
 			}
 		}
 	}

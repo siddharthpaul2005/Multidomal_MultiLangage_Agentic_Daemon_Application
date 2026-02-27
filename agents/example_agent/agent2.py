@@ -18,7 +18,7 @@ def main():
 
     response = stub.RegisterAgent(
         RegisterAgentRequest(
-            agent_name="file_watcher_sigma_sus_boi",
+            agent_name="example_agent_is working",
             capabilities=["filesystem", "monitoring"]
         )
     )
